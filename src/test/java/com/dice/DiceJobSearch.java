@@ -1,5 +1,6 @@
 package com.dice;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -50,13 +51,14 @@ public class DiceJobSearch {
 		String count=driver.findElement(By.id("posiCountMobileId")).getText();
 		System.out.println(count);
 		//ensure count is more than zero
-		int countResult=Integer.parseInt(count.replace(",", ""));//if there is , in the string it replaces it with nothing/space
-		if(countResult>0)
-		{
-			System.out.println("Keyword "+keyword+" search returned "+ countResult+ "results in "+location);
-		}else {
-			System.out.println("step failed");
-		}
+//		int countResult=Integer.parseInt(count.replace(",", ""));//if there is , in the string it replaces it with nothing/space
+//		if(countResult>0)
+//		{
+//			System.out.println("Keyword "+keyword+" search returned "+ countResult+ "results in "+location);
+//		}else {
+//			System.out.println("step failed");
+//		}
 	driver.close();
+	System.out.println("test completed"+LocalDateTime.now());
 	}
 }
