@@ -59,6 +59,6 @@ public class DiceJobSearch {
 //			System.out.println("step failed");
 //		}
 	driver.close();
-	System.out.println("test completed"+LocalDateTime.now());
+	System.out.println("test completed at "+LocalDateTime.now());
 	}
 }

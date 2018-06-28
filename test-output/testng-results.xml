@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="17003" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:19Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="17003" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:19Z">
+      <class name="webelements.WebElements">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:webelements.WebElements@5ed88e31]" name="setUp" is-config="true" duration-ms="4918" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:07Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUp -->
+        <test-method status="PASS" signature="SeleniumForm()[pri:0, instance:webelements.WebElements@5ed88e31]" name="SeleniumForm" duration-ms="12053" started-at="2018-06-27T23:00:07Z" finished-at="2018-06-27T23:00:19Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- SeleniumForm -->
+      </class> <!-- webelements.WebElements -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
