@@ -2,20 +2,20 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="17003" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:19Z">
+  <suite name="Default suite" duration-ms="60850" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:47:29Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="17003" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:19Z">
-      <class name="webelements.WebElements">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:webelements.WebElements@5ed88e31]" name="setUp" is-config="true" duration-ms="4918" started-at="2018-06-27T23:00:02Z" finished-at="2018-06-27T23:00:07Z">
+    <test name="Default test" duration-ms="60850" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:47:29Z">
+      <class name="WebTables.ApplicantsTable">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:WebTables.ApplicantsTable@685cb137]" name="setUp" is-config="true" duration-ms="5008" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:46:33Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="SeleniumForm()[pri:0, instance:webelements.WebElements@5ed88e31]" name="SeleniumForm" duration-ms="12053" started-at="2018-06-27T23:00:07Z" finished-at="2018-06-27T23:00:19Z">
+        <test-method status="PASS" signature="applicantsMap()[pri:0, instance:WebTables.ApplicantsTable@685cb137]" name="applicantsMap" duration-ms="55771" started-at="2018-07-02T03:46:33Z" finished-at="2018-07-02T03:47:29Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- SeleniumForm -->
-      </class> <!-- webelements.WebElements -->
+        </test-method> <!-- applicantsMap -->
+      </class> <!-- WebTables.ApplicantsTable -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

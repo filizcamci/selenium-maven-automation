@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -58,37 +59,41 @@ public class PersonalInfoTests {
 				"https://forms.zohopublic.com/murodil/form/JobApplicationForm/formperma/kOqgtfkv1dMJ4Df6k4_mekBNfNLIconAHvfdIk3CJSQ");
 		firstName = faker.name().firstName();
 		lastName = faker.name().lastName();
-		//gender = rd.nextInt(2) + 1;// min 1 max 2
-		gender=faker.number().numberBetween(1, 3);
+		// gender = rd.nextInt(2) + 1;// min 1 max 2
+		gender = faker.number().numberBetween(1, 3);
 		dob = faker.date().birthday().toString();
-		email = "jawocur@trimsj.com";
-		phoneNumber = faker.phoneNumber().cellPhone();
+		email = "filizcamci@gmail.com";
+		phoneNumber = faker.phoneNumber().cellPhone().replaceAll(".", "");
 		city = faker.address().city();
-		state = faker.address().city();
+		state = faker.address().state();
 		country = faker.address().country();
-		//salary = rd.nextInt(150000) + 50000;// min 50000 max 150000
-		salary=faker.number().numberBetween(50000, 150000);
-		technologies=new ArrayList();
-//		technologies.add("Java-Expert");
-//		technologies.add("Html-Proficient");
-//		technologies.add("Selenium WebDriver-Beginner");
-//		technologies.add("TestNG-Expert");
-//		technologies.add("Maven-Beginner");
-		technologies.add("Java-"+faker.number().numberBetween(1, 4));
-		technologies.add("Html-"+faker.number().numberBetween(1, 4));
-		technologies.add("Selenium WebDriver-"+faker.number().numberBetween(1, 4));
-		technologies.add("TestNG-"+faker.number().numberBetween(1, 4));
-		technologies.add("Maven-"+faker.number().numberBetween(1, 4));
-		technologies.add("Cucumber"+faker.number().numberBetween(1, 4));
-		experience=faker.number().numberBetween(0, 11);
-		education=faker.number().numberBetween(1, 4)+"";
-		github="https://github.com/CybertekSchool/selenium-maven-automation.git";
+		// salary = rd.nextInt(150000) + 50000;// min 50000 max 150000
+		salary = faker.number().numberBetween(50000, 150000);
+		technologies = new ArrayList();
+		// technologies.add("Java-Expert");
+		// technologies.add("Html-Proficient");
+		// technologies.add("Selenium WebDriver-Beginner");
+		// technologies.add("TestNG-Expert");
+		// technologies.add("Maven-Beginner");
+		technologies.add("Java-" + faker.number().numberBetween(1, 4));
+		technologies.add("HTML-" + faker.number().numberBetween(1, 4));
+		technologies.add("Selenium WebDriver-" + faker.number().numberBetween(1, 4));
+		technologies.add("Maven-" + faker.number().numberBetween(1, 4));
+		technologies.add("Git-" + faker.number().numberBetween(1, 4));
+		technologies.add("TestNG-" + faker.number().numberBetween(1, 4));
+		technologies.add("JUnit-" + faker.number().numberBetween(1, 4));
+		technologies.add("Cucumber-" + faker.number().numberBetween(1, 4));
+		technologies.add("API Automation-" + faker.number().numberBetween(1, 4));
+		technologies.add("JDBC-" + faker.number().numberBetween(1, 4));
+		technologies.add("SQL-" + faker.number().numberBetween(1, 4));
+		experience = faker.number().numberBetween(0, 11);
+		education = faker.number().numberBetween(1, 4) + "";
+		github = "https://github.com/CybertekSchool/selenium-maven-automation.git";
+		certifications = new ArrayList();
 		certifications.add("Java OCA");
 		certifications.add("AWS");
-		additional=faker.job().keySkills();
-		
-		
-		
+		additional = faker.job().keySkills();
+
 	}
 
 	@Test
@@ -110,58 +115,109 @@ public class PersonalInfoTests {
 		String errorMessage = driver.findElement(By.xpath("//p[@id='error-Name']")).getText();
 		assertEquals(errorMessage, "Enter a value for this field.");
 	}
+
 	@Test
-	public void submitFullApplication() {
-		//driver.findElement(By.name("Name_First")).sendKeys(firstName);
+	public void submitFullApplication() throws InterruptedException {
+		// driver.findElement(By.name("Name_First")).sendKeys(firstName);
 		driver.findElement(By.xpath("//input[@name='Name_First']")).sendKeys(firstName);
 		driver.findElement(By.name("Name_Last")).sendKeys(lastName);
 		setGender(gender);
 		setdob(dob);
+		driver.findElement(By.xpath("//input[@name='Email']")).clear();
 		driver.findElement(By.xpath("//input[@name='Email']")).sendKeys(email);
 		driver.findElement(By.xpath("//input[@name='countrycode']")).sendKeys(phoneNumber);
 		driver.findElement(By.xpath("//input[@name='Address_City']")).sendKeys(city);
 		driver.findElement(By.xpath("//input[@name='Address_Region']")).sendKeys(state);
-		Select countryselect=new Select(driver.findElement(By.xpath("//select[@id='Address_Country']")));
-		countryselect.selectByIndex(faker.number().numberBetween(1, countryselect.getOptions().size()));// to select random country
-		//driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(""+salary);
-		driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(String.valueOf(salary)+Keys.TAB);
+		Select countryselect = new Select(driver.findElement(By.xpath("//select[@id='Address_Country']")));
+		countryselect.selectByIndex(faker.number().numberBetween(1, countryselect.getOptions().size()));// to select
+																										// random
+																										// country
+		// driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(""+salary);
+		driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(String.valueOf(salary) + Keys.TAB);
 		verifySalaryCalculations(salary);
-		driver.findElement(By.xpath("//input[@rowvalue='java' and @coloumnvalue='expert']"));
-		
-		
-		
-		if(experience>0) {
-		driver.findElement(By.xpath("//a[@rating_value='"+ experience+"']")).click();
+		driver.findElement(By.xpath("//div[@class=' formRelative inlineBlock submitWrapper ']")).click();
+
+		// SECOND PAGE ACTIONS
+		setSkillset(technologies);
+
+		if (experience > 0) {
+			driver.findElement(By.xpath("//a[@rating_value='" + experience + "']")).click();
 		}
-		Select edu=new Select(driver.findElement(By.xpath("//select[@name='Dropdown']")));
-		edu.selectByIndex(Integer.parseInt(education));
-		
+		Select educationList = new Select(driver.findElement(By.xpath("//select[@name='Dropdown']")));
+		educationList.selectByIndex(faker.number().numberBetween(1, educationList.getOptions().size()));
+		checkCertifications(certifications);
+		driver.findElement(By.xpath("//textarea[@name='MultiLine']")).clear();
+		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		jse.executeScript("window.scrollBy(0,250)", "");
+		// jse.executeScript("scroll(0, 250);");
+		driver.findElement(By.xpath("//em[.=Apply]")).click();
+
 	}
+
+	public void setSkillset(List<String> tech) throws InterruptedException {
+
+		for (String skill : tech) {
+			String technology = skill.substring(0, skill.length() - 2);
+			int rate = Integer.parseInt(skill.substring(skill.length() - 1));
+
+			String level = "";
+
+			switch (rate) {
+			case 1:
+				level = "Expert";
+				break;
+			case 2:
+				level = "Proficient";
+				break;
+			case 3:
+				level = "Beginner";
+				break;
+			default:
+				fail(rate + " is not a valid level");
+			}
+
+			String xpath = "//input[@rowvalue='" + technology + "' and @columnvalue='" + level + "']";
+			Thread.sleep(1000);
+			driver.findElement(By.xpath(xpath)).click();
+
+		}
+	}
+
+	@Test
 	public void verifySalaryCalculations(int salary) {
-		String monthly=driver.findElement(By.xpath("//input[@name='Formula']")).getAttribute("value");
-		String weekly=driver.findElement(By.xpath("//input[@name='Formula1']")).getAttribute("value");
-		String hourly=driver.findElement(By.xpath("//input[@name='Formula2']")).getAttribute("value");
-		DecimalFormat formatter=new DecimalFormat("#.##");
-		
-	assertEquals(Double.parseDouble(monthly),Double.parseDouble(formatter.format((double)salary /12.0)));
-		assertEquals(Double.parseDouble(weekly),Double.parseDouble(formatter.format((double)salary / 52.0)));
-		assertEquals(Double.parseDouble(hourly),Double.parseDouble(formatter.format((double)salary / 52.0 / 40.0)));
-//		assertEquals(Double.parseDouble(monthly), (double)salary/(double)12);
-//		assertEquals(Double.parseDouble(weekly), (double)salary/(double)52);
-//		assertEquals(Double.parseDouble(hourly), (double)salary/(double)52/40.0);
+		String monthly = driver.findElement(By.xpath("//input[@name='Formula']")).getAttribute("value");
+		String weekly = driver.findElement(By.xpath("//input[@name='Formula1']")).getAttribute("value");
+		String hourly = driver.findElement(By.xpath("//input[@name='Formula2']")).getAttribute("value");
+		DecimalFormat formatter = new DecimalFormat("#.##");
+
+		assertEquals(Double.parseDouble(monthly), Double.parseDouble(formatter.format((double) salary / 12.0)));
+		assertEquals(Double.parseDouble(weekly), Double.parseDouble(formatter.format((double) salary / 52.0)));
+		assertEquals(Double.parseDouble(hourly), Double.parseDouble(formatter.format((double) salary / 52.0 / 40.0)));
+		// assertEquals(Double.parseDouble(monthly), (double)salary/(double)12);
+		// assertEquals(Double.parseDouble(weekly), (double)salary/(double)52);
+		// assertEquals(Double.parseDouble(hourly), (double)salary/(double)52/40.0);
 	}
+
 	public void setGender(int n) {
-		if(n==1) {
+		if (n == 1) {
 			driver.findElement(By.xpath("//input[@value='Male']")).click();
-		}else {
+		} else {
 			driver.findElement(By.xpath("//input[@value='Female']")).click();
 		}
-		
+
 	}
+
 	public void setdob(String dob) {
-		String[] str=dob.split(" ");
-		String DOB=str[1]+"-"+str[2]+"-"+str[str.length-1];
+		String[] str = dob.split(" ");
+		String DOB = str[1] + "-" + str[2] + "-" + str[str.length - 1];
 		driver.findElement(By.xpath("//input[@id='Date-date']")).sendKeys(DOB);
-		
+
+	}
+
+	public void checkCertifications(List<String> certifications) {
+		for (int i = 0; i < certifications.size(); i++) {
+			String xpath = "//input[@id='Checkbox_" + (i + 1) + "']";
+			driver.findElement(By.xpath(xpath)).click();
+		}
 	}
 }
