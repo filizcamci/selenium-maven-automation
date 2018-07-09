@@ -10,8 +10,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -47,7 +50,7 @@ public class PersonalInfoTests {
 		System.out.println("setting up WebDriver before class");
 		WebDriverManager.chromedriver().setup();
 		driver = new ChromeDriver();
-		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 
 	}
@@ -63,7 +66,7 @@ public class PersonalInfoTests {
 		gender = faker.number().numberBetween(1, 3);
 		dob = faker.date().birthday().toString();
 		email = "filizcamci@gmail.com";
-		phoneNumber = faker.phoneNumber().cellPhone().replaceAll(".", "");
+		phoneNumber = faker.phoneNumber().cellPhone().replace(".", "");
 		city = faker.address().city();
 		state = faker.address().state();
 		country = faker.address().country();
@@ -96,27 +99,27 @@ public class PersonalInfoTests {
 
 	}
 
-	@Test
-	public void fullNameEmptyTest() {
-		// first assert that you are on the correct page
-		assertEquals(driver.getTitle(), "SDET Job Application");
-		// driver.findElement(By.name("Name_First")).clear();
-		// <input type="text" maxlength="255" elname="first" name="Name_First" value=""
-		// invlovedinsalesiq="false">
-		driver.findElement(By.xpath("//input[@name='Name_First']")).clear();
-		;
-		driver.findElement(By.xpath("//input[@name='Name_Last']")).clear();
-		// <em> Next </em>
-		driver.findElement(By.xpath("//em[.=' Next ']")).click();
-		// <p class="errorMessage" elname="error" id="error-Name" style="display:
-		// block;">Enter a value for this field.</p>
-		// write xpath with tagname+id
-		// get the text and assert equal
-		String errorMessage = driver.findElement(By.xpath("//p[@id='error-Name']")).getText();
-		assertEquals(errorMessage, "Enter a value for this field.");
-	}
+//	@Test
+//	public void fullNameEmptyTest() {
+//		// first assert that you are on the correct page
+//		assertEquals(driver.getTitle(), "SDET Job Application");
+//		// driver.findElement(By.name("Name_First")).clear();
+//		// <input type="text" maxlength="255" elname="first" name="Name_First" value=""
+//		// invlovedinsalesiq="false">
+//		driver.findElement(By.xpath("//input[@name='Name_First']")).clear();
+//		;
+//		driver.findElement(By.xpath("//input[@name='Name_Last']")).clear();
+//		// <em> Next </em>
+//		driver.findElement(By.xpath("//em[.=' Next ']")).click();
+//		// <p class="errorMessage" elname="error" id="error-Name" style="display:
+//		// block;">Enter a value for this field.</p>
+//		// write xpath with tagname+id
+//		// get the text and assert equal
+//		String errorMessage = driver.findElement(By.xpath("//p[@id='error-Name']")).getText();
+//		assertEquals(errorMessage, "Enter a value for this field.");
+//	}
 
-	@Test
+	@Test(priority=1)
 	public void submitFullApplication() throws InterruptedException {
 		// driver.findElement(By.name("Name_First")).sendKeys(firstName);
 		driver.findElement(By.xpath("//input[@name='Name_First']")).sendKeys(firstName);
@@ -135,8 +138,10 @@ public class PersonalInfoTests {
 		// driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(""+salary);
 		driver.findElement(By.xpath("//input[@name='Number']")).sendKeys(String.valueOf(salary) + Keys.TAB);
 		verifySalaryCalculations(salary);
-		driver.findElement(By.xpath("//div[@class=' formRelative inlineBlock submitWrapper ']")).click();
-
+		//driver.findElement(By.xpath("//div[@class=' formRelative inlineBlock submitWrapper ']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//*[@id=\"formAccess\"]/div[1]/div/div/button")).click();
+		
 		// SECOND PAGE ACTIONS
 		setSkillset(technologies);
 
@@ -150,7 +155,96 @@ public class PersonalInfoTests {
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
 		jse.executeScript("window.scrollBy(0,250)", "");
 		// jse.executeScript("scroll(0, 250);");
-		driver.findElement(By.xpath("//em[.=Apply]")).click();
+		//click apply button:
+		driver.findElement(By.xpath("//*[@id=\"formAccess\"]/div[1]/div[2]/div/button/em")).click();
+		
+		//verify everything is correct:
+		
+		String applicationId=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[8]")).getText();
+		String id=applicationId.substring(16);
+		System.out.println("id: "+id);
+		
+		String ipa=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[6]")).getText();
+		String ip=ipa.substring(12);
+		System.out.println("ip address: "+ip);
+		
+		String full=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[1]")).getText();
+		int index=full.indexOf(" ");
+		String fullName=full.substring(index+1,full.length()-1);
+		System.out.println("fullname:"+fullName);
+		
+		String dateOfB=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[10]")).getText();
+		String dateOfBirth=dateOfB.substring(15);
+		System.out.println("DOB: "+dateOfBirth);
+		
+		String elmail=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[11]")).getText();
+		String electronicMail=elmail.substring(7);
+		System.out.println("email: "+electronicMail);
+		
+		
+		String telephone=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[12]")).getText();
+		String TelphoneNumber=telephone.substring(7);
+		System.out.println("phonenumber: "+TelphoneNumber);
+		
+		String addressapp=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[13]")).getText();
+		String applicantAddress=addressapp.substring(9);
+		System.out.println("address: "+applicantAddress);
+		
+		String appSalary=driver.findElement(By.xpath("//*[@id=\"richTxtMsgSpan\"]/label/div[14]")).getText();
+		String currentSalary=appSalary.substring(15);
+		System.out.println("current salary: $"+currentSalary);
+		
+		//WebDriver driver2=new ChromeDriver();
+		driver.get("https://www.google.com/");
+		driver.findElement(By.id("lst-ib")).sendKeys("what is my ip"+Keys.ENTER);
+		String ipg=driver.findElement(By.xpath("//div[@class='pIpgAc xyYs1c XO51F xsLG9d']")).getText();
+		
+		assertEquals(ipg,ip);
+		
+		//driver2.close();
+		
+		
+		//WebDriver driver1=new ChromeDriver();
+		driver.get("https://mail.google.com/mail/u/0/#inbox");
+		driver.findElement(By.xpath("//a[.='Sign In']")).click();;
+		driver.findElement(By.id("identifierId")).sendKeys("filizcamci@gmail.com");
+		driver.findElement(By.id("identifierNext")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//input[@type='password']")).sendKeys("FDAR0306c"+Keys.ENTER);
+		
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//*[@class='zA zE btb']")).click();
+		
+		String appId=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[2]/td[3]")).getText();
+		assertEquals(appId,id);
+		
+		String nameEmail=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[3]/td[3]")).getText();
+		String ename=nameEmail.replaceAll(",", " ");
+		assertEquals(ename,fullName);
+		
+		String edateofBirth=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[5]/td[3]")).getText();
+		assertEquals(dateOfBirth,edateofBirth);
+		
+		String eAddress=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[6]/td[3]")).getText();
+		assertEquals(electronicMail,eAddress);
+		
+		String pnumber=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[7]/td[3]")).getText();
+		assertEquals(TelphoneNumber,pnumber);
+		
+		String mailAddress=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[8]/td[3]")).getText();
+		String[] mailadrs=mailAddress.split(",");
+		String madrs="";
+		for(int i=0; i<mailadrs.length; i++) {
+			if(i==mailadrs.length-1)
+				madrs+=mailadrs[i];
+			else
+				madrs+=mailadrs[i]+","+" ";
+		}
+		assertEquals(applicantAddress,madrs);
+		
+		String cSalary=driver.findElement(By.xpath("//*[@class='ii gt']/div/table/tbody/tr[9]/td[3]")).getText();
+		assertEquals(currentSalary,cSalary);
+//		
 
 	}
 
@@ -183,7 +277,7 @@ public class PersonalInfoTests {
 		}
 	}
 
-	@Test
+	//@Test
 	public void verifySalaryCalculations(int salary) {
 		String monthly = driver.findElement(By.xpath("//input[@name='Formula']")).getAttribute("value");
 		String weekly = driver.findElement(By.xpath("//input[@name='Formula1']")).getAttribute("value");
@@ -209,7 +303,7 @@ public class PersonalInfoTests {
 
 	public void setdob(String dob) {
 		String[] str = dob.split(" ");
-		String DOB = str[1] + "-" + str[2] + "-" + str[str.length - 1];
+		String DOB = str[2] + "-" + str[1] + "-" + str[str.length - 1];
 		driver.findElement(By.xpath("//input[@id='Date-date']")).sendKeys(DOB);
 
 	}
@@ -220,4 +314,15 @@ public class PersonalInfoTests {
 			driver.findElement(By.xpath(xpath)).click();
 		}
 	}
+	
+	
+		
+
+		
+	
+//	 @AfterClass
+//	 public void tearDown() throws InterruptedException {
+//	 Thread.sleep(2000);
+//	 driver.close();
+//	 }
 }

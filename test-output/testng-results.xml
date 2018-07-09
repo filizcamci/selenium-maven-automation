@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results skipped="0" failed="0" ignored="2" total="3" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="60850" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:47:29Z">
+  <suite name="Default suite" duration-ms="8057" started-at="2018-07-09T16:02:11Z" finished-at="2018-07-09T16:02:19Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="60850" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:47:29Z">
-      <class name="WebTables.ApplicantsTable">
-        <test-method status="PASS" signature="setUp()[pri:0, instance:WebTables.ApplicantsTable@685cb137]" name="setUp" is-config="true" duration-ms="5008" started-at="2018-07-02T03:46:28Z" finished-at="2018-07-02T03:46:33Z">
+    <test name="Default test" duration-ms="8057" started-at="2018-07-09T16:02:11Z" finished-at="2018-07-09T16:02:19Z">
+      <class name="pomDesign.WebOrderTests">
+        <test-method status="PASS" signature="setUp()[pri:0, instance:pomDesign.WebOrderTests@4883b407]" name="setUp" is-config="true" duration-ms="5294" started-at="2018-07-09T16:02:11Z" finished-at="2018-07-09T16:02:17Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUp -->
-        <test-method status="PASS" signature="applicantsMap()[pri:0, instance:WebTables.ApplicantsTable@685cb137]" name="applicantsMap" duration-ms="55771" started-at="2018-07-02T03:46:33Z" finished-at="2018-07-02T03:47:29Z">
+        <test-method status="PASS" signature="positiveLoginTest()[pri:0, instance:pomDesign.WebOrderTests@4883b407]" name="positiveLoginTest" is-config="true" duration-ms="370" started-at="2018-07-09T16:02:17Z" finished-at="2018-07-09T16:02:17Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- applicantsMap -->
-      </class> <!-- WebTables.ApplicantsTable -->
+        </test-method> <!-- positiveLoginTest -->
+        <test-method status="PASS" signature="orderTest()[pri:3, instance:pomDesign.WebOrderTests@4883b407]" name="orderTest" duration-ms="2366" started-at="2018-07-09T16:02:17Z" finished-at="2018-07-09T16:02:19Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- orderTest -->
+      </class> <!-- pomDesign.WebOrderTests -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>
